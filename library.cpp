@@ -33,60 +33,91 @@ class Book{
 };
 
 int main(){
-    Book b1;
+    Book books[5];
+    int bookCount = 0;
     int menu;
 
     while (true) {
         cout << "\nEnter 1 - ADD Book\n";
-        cout << "Enter 2 - DISPLAY BOOK\n";
-        cout << "Enter 3 - EXIT\n";
+        cout << "Enter 2 - DISPLAY BOOKS\n";
+        cout << "Enter 3 - SEARCH BOOK\n";
+        cout << "Enter 4 - EXIT\n";
         cout << "Choose an option: ";
         cin >> menu;
         cin.ignore(); 
 
         switch(menu){
             case 1: {
-                cout << "ADD BOOK\n";
-                string title;
-                string author;
-                int year;
+                if(bookCount < 5){
+                    cout << "1 - Add Book\n";
+                    string title;
+                    string author;
+                    int year;
 
-                cout << "Enter the book's title: ";
-                getline(cin, title);
-                b1.setTitle(title);
+                    cout << "Enter title: ";
+                    getline(cin, title);
+                    books[bookCount].setTitle(title);
 
-                cout << "Enter the book's author: ";
-                getline(cin, author);
-                b1.setAuthor(author);
+                    cout << "Enter author: ";
+                    getline(cin, author);
+                    books[bookCount].setAuthor(author);
 
-                cout << "Enter the book's year: ";
-                cin >> year;
-                b1.setYear(year);
+                    cout << "Enter year: ";
+                    cin >> year;
+                    books[bookCount].setYear(year);
 
-                cout << "Book added successfully!\n"; 
-                break;
-            }
-            case 2: {
-                if (b1.isEmpty()) {
-                    cout << "No book added yet.\n";
+                    cout << "Book added successfully!\n";
+                    bookCount++;
                 } else {
-                    cout << "DISPLAY BOOK\n";
-                    cout << "Title: " << b1.getTitle() << endl;
-                    cout << "Author: " << b1.getAuthor() << endl;
-                    cout << "Year: " << b1.getYear() << endl;
+                    cout << "You have reached the maximum number of books (5).\n";
                 }
                 break;
             }
-            case 3:
+            case 2: {
+                if (bookCount == 0) {
+                    cout << "No books added yet.\n";
+                } else {
+                    cout << "Title\t\tAuthor\t\tYear\t\n";
+
+                for (int i = 0; i < bookCount; i++) {
+                    cout << books[i].getTitle() << "\t\t"
+                        << books[i].getAuthor() << "\t\t"
+                        << books[i].getYear() << endl;
+                }
+                }
+                break;
+            }
+
+            case 3: {
+                cout << "SEARCH BOOK\n";
+                string searchTitle;
+                cout << "Enter a book title to search: ";
+                getline(cin, searchTitle);
+
+                bool found = false;
+                for (int i = 0; i < bookCount; i++) {
+                    if (books[i].getTitle() == searchTitle) {
+                        cout << "Book found!\n";
+                        cout << "Title: " << books[i].getTitle() << "\n";
+                        cout << "Author: " << books[i].getAuthor() << "\n";
+                        cout << "Year: " << books[i].getYear() << "\n";
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    cout << "Book not found.\n";
+                }
+                break;
+            }
+            case 4:
                 cout << "Exiting the program...\n";
                 return 0;
 
-            
             default:
                 cout << "Invalid option. Please try again.\n";
                 break;
         }
     }
-
     return 0;
 }
